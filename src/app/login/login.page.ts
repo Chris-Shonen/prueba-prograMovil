@@ -9,22 +9,32 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./login.page.scss'],
 }) 
 export class LoginPage implements OnInit {
-
+  mensaje : String;
   token ='LocalStorage';
 
-constructor(
-  private router: Router,
-  private storage: Storage
-){}
+  constructor(
+    private router: Router,
+    private storage: Storage
+  ){}
 
-ngOnInit() {
-  localStorage.clear()
-}
+  ngOnInit() {
+    localStorage.clear()
+  }
 
 
-
-login(){
-localStorage.setItem('tokem',this.token)
-this.router.navigate(["/veralumno"]);
- }
+  async login(nom:HTMLInputElement, cont:HTMLInputElement){
+    localStorage.setItem('token',this.token)
+    if(nom.value == ""){
+      this.mensaje='falta el nombre';
+    }
+    else if(cont.value == ""){
+      this.mensaje = 'ingrese contraseña'
+    }
+    else if(cont.value != "1234"){
+      this.mensaje = 'contraseña incorrecta'
+    }
+    else{
+      this.router.navigate(["/veralumnos"]);
+  }
+  }
 }
