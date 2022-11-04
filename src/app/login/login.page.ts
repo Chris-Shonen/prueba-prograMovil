@@ -1,54 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder
-} from '@angular/forms'
-import { AlertController, NavController } from '@ionic/angular';
-import { from } from 'rxjs';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-})
+}) 
 export class LoginPage implements OnInit {
 
-  formularioLogin: FormGroup
+  token ='LocalStorage';
 
-  constructor(public fb: FormBuilder,
-    public alertController: AlertController,
-    public navCtrl: NavController) { 
+constructor(
+  private router: Router,
+  private storage: Storage
+){}
 
-    this.formularioLogin = this.fb.group({
-      'nombre': new FormControl("",Validators.required),
-      'password': new FormControl("",Validators.required)
-    })
+ngOnInit() {
+  localStorage.clear()
+}
 
-  }
 
-  ngOnInit() {
-  }
 
-  async ingresar(){
-    var f = this.formularioLogin.value;
-
-    var usuario = JSON.parse(localStorage.getItem('usuario'));
-
-    if(usuario.nombre == f.nombre && usuario.password == f.password){
-      console.log('Ingresado');
-      localStorage.setItem('ingresado','true');
-      this.navCtrl.navigateRoot('inicio');
-    }else{
-      const alert = await this.alertController.create({
-        header: 'Datos incorrectos',
-        message: 'Los datos que ingresaste son incorrectos.',
-        buttons: ['Aceptar']
-      });
-  
-      await alert.present();
-    }
-  }
-
+login(){
+localStorage.setItem('tokem',this.token)
+this.router.navigate(["/veralumno"]);
+ }
 }
